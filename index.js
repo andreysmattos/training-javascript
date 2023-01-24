@@ -1,5 +1,9 @@
-function digitize(n) {
-  return String(n).split("").map(Number).reverse();
+function betterThanAverage(classPoints, yourPoints) {
+  classPoints.push(yourPoints);
+
+  return classPoints.reduce((acc, cur) => acc + cur) / classPoints.length < yourPoints;
 }
 
-console.log(digitize(163874235785));
+console.log(betterThanAverage([100, 40, 34, 57, 29, 72, 57, 88], 5));
+// console.log(past(0, 1, 1));
+// console.log(past(1, 0, 0));
