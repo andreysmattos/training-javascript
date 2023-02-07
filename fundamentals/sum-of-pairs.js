@@ -27,56 +27,65 @@
  * == [3, 7]
  */
 
+/*
+
+NO SEGUNDO FOR, A IDEIA É FAZER COM QUE ELE PARE DE PESQUISAR SE O "INDEX" FOR MAIOR QUE O ENCONTRADO ANTERIORAMENTE
+
+
+*/
 function sumPairs(list, number) {
-  let result = [];
+  let result = false;
 
   for (let index = 0; index < list.length; index++) {
-    const item = list[index];
-    const need = number - item;
+    const element = list[index];
+    const need = number - element;
 
-    // if(need === 0) { return [index, index]}
+    console.log({ element, need });
 
-    const foundIndex = list.indexOf(need, index + 1);
+    for (let indexTwo = index + 1; indexTwo < list.length; indexTwo++) {
+      const elementTwo = list[indexTwo];
+      console.log({ elementTwo });
 
-    let foundItem = null;
-
-    if (foundIndex !== -1) {
-      foundItem = list[foundIndex];
-      const countIndex = foundIndex - index;
-
-      if ((result.length && result[0] > countIndex) || result.length === 0) {
-        result = [foundIndex - index, item, foundItem];
+      if (elementTwo === need) {
+        if (!result || result[0] > indexTwo) {
+          result = [indexTwo, element, elementTwo];
+          console.log("achou", {indexTwo});
+        }
       }
     }
   }
 
-  if(result.length ===0) return undefined;
-  
+  if (!result) return undefined;
 
+  console.log("----");
+  console.log({ result });
   result.shift();
   return result;
+  console.log("----");
 }
 
-// console.assert(
+// console.log(
 //   sumPairs([1, 4, 8, 7, 3, 15], 8),
 //   [1, 7],
 //   "Basic: [1, 4, 8, 7, 3, 15] should return [1, 7] for sum = 8"
+// );
+
 // );
 // console.assert(
 //   sumPairs([1, -2, 3, 0, -6, 1], -6),
 //   [0, -6],
 //   "Negatives: [1, -2, 3, 0, -6, 1] should return [0, -6] for sum = -6"
 // );
-console.log(
-  sumPairs([20, -13, 40], -7),
-  undefined,
-  "No Match: [20, -13, 40] should return undefined for sum = -7"
-);
-// console.assert(
-//   sumPairs([1, 2, 3, 4, 1, 0], 2),
-//   [1, 1],
-//   "First Match From Left: [1, 2, 3, 4, 1, 0] should return [1, 1] for sum = 2"
+// console.log(
+//   sumPairs([20, -13, 40], -7),
+//   undefined,
+//   "No Match: [20, -13, 40] should return undefined for sum = -7"
 // );
+console.log(
+  sumPairs([1, 2, 3, 4, 1, 0], 2),
+  [1, 1],
+  "First Match From Left: [1, 2, 3, 4, 1, 0] should return [1, 1] for sum = 2"
+);
 // console.assert(
 //   sumPairs([10, 5, 2, 3, 7, 5], 10),
 //   [3, 7],
@@ -100,6 +109,40 @@ console.log(
 
 // OLD CODE
 /*
+
+
+function sumPairs(list, number) {
+  let result = [];
+
+  for (let index = 0; index < list.length; index++) {
+    const item = list[index];
+    const need = number - item;
+
+    const foundIndex = list.indexOf(need, index + 1);
+
+    let foundItem = null;
+
+    if (foundIndex !== -1) {
+      foundItem = list[foundIndex];
+      const countIndex = foundIndex - index;
+
+      if (result.length === 0 || result[0] > countIndex) {
+        result = [countIndex, item, foundItem];
+
+        if (countIndex === 1) {
+          break;
+        }
+      }
+    }
+  }
+
+  if (result.length === 0) return undefined;
+
+  result.shift();
+  return result;
+}
+
+
 function sumPairs(list, number) {
   // [secondKey, first, second]
   let result = [];
