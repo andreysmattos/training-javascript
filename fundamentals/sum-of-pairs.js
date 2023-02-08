@@ -38,138 +38,48 @@ function sumPairs(list, number) {
 
   for (let index = 0; index < list.length; index++) {
     const element = list[index];
-    const need = number - element;
+    if (element === list[index - 1]) {
+      continue;
+    }
 
-    console.log({ element, need });
+    const need = number - element;
 
     for (let indexTwo = index + 1; indexTwo < list.length; indexTwo++) {
       const elementTwo = list[indexTwo];
-      console.log({ elementTwo });
+
+      if (result && indexTwo > result[0]) {
+        break;
+      }
 
       if (elementTwo === need) {
-        if (!result || result[0] > indexTwo) {
-          result = [indexTwo, element, elementTwo];
-          console.log("achou", {indexTwo});
-        }
+        result = [indexTwo, element, elementTwo];
       }
     }
   }
 
   if (!result) return undefined;
 
-  console.log("----");
-  console.log({ result });
-  result.shift();
-  return result;
-  console.log("----");
-}
-
-// console.log(
-//   sumPairs([1, 4, 8, 7, 3, 15], 8),
-//   [1, 7],
-//   "Basic: [1, 4, 8, 7, 3, 15] should return [1, 7] for sum = 8"
-// );
-
-// );
-// console.assert(
-//   sumPairs([1, -2, 3, 0, -6, 1], -6),
-//   [0, -6],
-//   "Negatives: [1, -2, 3, 0, -6, 1] should return [0, -6] for sum = -6"
-// );
-// console.log(
-//   sumPairs([20, -13, 40], -7),
-//   undefined,
-//   "No Match: [20, -13, 40] should return undefined for sum = -7"
-// );
-console.log(
-  sumPairs([1, 2, 3, 4, 1, 0], 2),
-  [1, 1],
-  "First Match From Left: [1, 2, 3, 4, 1, 0] should return [1, 1] for sum = 2"
-);
-// console.assert(
-//   sumPairs([10, 5, 2, 3, 7, 5], 10),
-//   [3, 7],
-//   "First Match From Left REDUX!: [10, 5, 2, 3, 7, 5] should return [3, 7] for sum = 10"
-// );
-// console.assert(
-//   sumPairs([4, -2, 3, 3, 4], 8),
-//   [4, 4],
-//   "Duplicates: [4, -2, 3, 3, 4] should return [4, 4] for sum = 8"
-// );
-// console.assert(
-//   sumPairs([0, 2, 0], 0),
-//   [0, 0],
-//   "Zeroes: [0, 2, 0] should return [0, 0] for sum = 0"
-// );
-// console.assert(
-//   sumPairs([5, 9, 13, -3], 10),
-//   [13, -3],
-//   "Subtraction: [5, 9, 13, -3] should return [13, -3] for sum = 10"
-// );
-
-// OLD CODE
-/*
-
-
-function sumPairs(list, number) {
-  let result = [];
-
-  for (let index = 0; index < list.length; index++) {
-    const item = list[index];
-    const need = number - item;
-
-    const foundIndex = list.indexOf(need, index + 1);
-
-    let foundItem = null;
-
-    if (foundIndex !== -1) {
-      foundItem = list[foundIndex];
-      const countIndex = foundIndex - index;
-
-      if (result.length === 0 || result[0] > countIndex) {
-        result = [countIndex, item, foundItem];
-
-        if (countIndex === 1) {
-          break;
-        }
-      }
-    }
-  }
-
-  if (result.length === 0) return undefined;
-
   result.shift();
   return result;
 }
 
+// Alternatives:
+// https://www.codewars.com/kata/54d81488b981293527000c8f/solutions/javascript
 
-function sumPairs(list, number) {
-  // [secondKey, first, second]
-  let result = [];
-
-  for (let firstKey = 0; firstKey < list.length; firstKey++) {
-    const first = list[firstKey];
-
-    let stop = list.length;
-
-    if(result.length){
-        stop = result[0];
-        // console.log({stop});
-    }
-    let i = 0;
-    for (let secondKey = firstKey + 1; secondKey < list.length; secondKey++) {
-        i++;
-      const second = list[secondKey];
-
-      if (first + second !== number) continue;
-
-      if (result.length === 0 || result[0] > secondKey) {
-        result = [secondKey, first, second];
-        break;
-        // console.log({result})
-      }
-    }
+var sum_pairs=function(ints, s){
+  var seen = {}
+  for (var i = 0; i < ints.length; ++i) {
+    if (seen[s - ints[i]]) return [s - ints[i], ints[i]];
+    seen[ints[i]] = true
   }
-  return result.length ? [result[1], result[2]] : undefined;
 }
-*/
+
+
+
+function sum_pairs(ints, s) {
+  let seen = new Set();
+  for (let i of ints) {
+    if (seen.has(s - i)) return [s - i, i];
+    seen.add(i);
+  }
+}
