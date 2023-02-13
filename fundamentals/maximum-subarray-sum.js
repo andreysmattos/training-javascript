@@ -11,22 +11,38 @@
  */
 
 var maxSequence = function (arr) {
-  for (let index = 0; index < arr.length; index++) {
-    const primary = arr[index];
-    const sums = [primary];
+  let result = 0;
 
-    for (let i = index + 1; i < arr.length; i++) {
-      const current = arr[i];
+  for (let primaryKey = 0; primaryKey < arr.length; primaryKey++) {
+    let sum = arr[primaryKey];
 
-      sums.push(sums[sums.length - 1] + current);
+    for (
+      let secondaryKey = primaryKey;
+      secondaryKey < arr.length;
+      secondaryKey++
+    ) {
+      if (secondaryKey !== primaryKey) {
+        sum += arr[secondaryKey];
+      } else {
+        sum = arr[secondaryKey];
+      }
 
-      console.log({ index, i });
+      if (sum > result) {
+        result = sum;
+      }
     }
-
-    // const sumList = arr.reduce()
-
-    console.log({ sums });
   }
+  return result;
 };
 
-maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]);
+
+// Alternative:
+var maxSequence = function(arr){
+  var min = 0, ans = 0, i, sum = 0;
+  for (i = 0; i < arr.length; ++i) {
+    sum += arr[i];
+    min = Math.min(sum, min);
+    ans = Math.max(ans, sum - min);
+  }
+  return ans;
+}
