@@ -1,6 +1,6 @@
 /**
  * https://www.codewars.com/kata/55c04b4cc56a697bb0000048/train/javascript
- * 
+ *
  * Scramblies
  *
  * Complete the function scramble(str1, str2) that returns true if a portion of str1 characters can be rearranged to match str2, otherwise returns false.
@@ -18,35 +18,18 @@
  */
 
 function scramble(str1, str2) {
-  const arr1 = str1.split("");
-  const arr2 = str2.split("");
+  const uniques = [...new Set(str2.split(""))];
 
-  for (const index in arr2) {
-    const char = arr2[index];
+  for (const index in uniques) {
+    const char = uniques[index];
 
-    const hasIndex = arr1.indexOf(char);
+    const regex = new RegExp(`${char}`, "g");
 
-    if (hasIndex === -1) {
-      return false;
-    }
+    const count1 = (str1.match(regex) || []).length;
+    const count2 = (str2.match(regex) || []).length;
 
-    arr1.splice(hasIndex, 1);
+    if (count1 < count2) return false;
   }
 
   return true;
 }
-
-console.log(scramble("rkqodlw", "world"), true);
-console.log(scramble("cedewaraaossoqqyt", "codewars"), true);
-console.log(scramble("katas", "steak"), false);
-
-console.log(scramble("scriptjavx", "javascript"), false);
-console.log(scramble("javscripts", "javascript"), false);
-
-console.log(scramble("scriptingjava", "javascript"), true);
-console.log(scramble("scriptsjava", "javascripts"), true);
-
-console.log(scramble("jscripts", "javascript"), false);
-console.log(scramble("aabbcamaomsccdd", "commas"), true);
-console.log(scramble("commas", "commas"), true);
-console.log(scramble("sammoc", "commas"), true);
